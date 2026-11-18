@@ -1,7 +1,8 @@
-﻿from datetime import datetime, timezone
+﻿rom datetime import datetime, timezone
 import hashlib
 import io
 import json
+from pathlib import Path
 import re
 import urllib.request
 import pandas as pd
@@ -374,7 +375,7 @@ def generate_ai_narrative(
             "2. *Cross-Device Pivot:* Within 60 seconds of Android USB/tethering activation, the Windows 11 host enumerated an Android ADB/MTP interface.\n"
             "3. **Exfiltration: Post-mount, sensitive file transfer activity to external storage was recorded."
         )
-        return fallback, "Deterministic Forensic Synthesizer (Ollama Offline)"
+        return fallback, "Deterministic Forensic Synthesizer (Offline / Cloud Mode)"
 
 
 def verify_exported_report(report_bytes: bytes) -> tuple[bool, str]:
@@ -397,6 +398,21 @@ def verify_exported_report(report_bytes: bytes) -> tuple[bool, str]:
         return False, f"Invalid JSON report format: {exc}"
 
 
+def load_builtin_demo_files() -> list[tuple[str, bytes]]:
+    demo_paths = [
+        Path("data/android-logcat.txt"),
+        Path("data/windows_security.csv"),
+    ]
+    loaded = []
+    for p in demo_paths:
+        if p.exists():
+            loaded.append((p.name, p.read_bytes()))
+    return loaded
+
+
+if "demo_active" not in st.session_state:
+    st.session_state.demo_active = False
+
 with st.sidebar:
     st.header("Forensic Workbench Controls")
     verify_file = st.file_uploader(
@@ -410,21 +426,38 @@ with st.sidebar:
             st.error(status_msg)
     st.divider()
 
+demo_col1, demo_col2 = st.columns([3, 1])
+with demo_col1:
+    if st.button("Load Built-in Demo Case (Android + Windows 11)", type="primary", width="stretch"):
+        st.session_state.demo_active = True
+with demo_col2:
+    if st.session_state.demo_active and st.button("Clear Demo", width="stretch"):
+        st.session_state.demo_active = False
+        st.rerun()
+
 uploaded_files = st.file_uploader(
-    "Upload Device Logs (JSON, CSV, or Android adb logcat TXT/LOG)",
+    "Or Upload Custom Device Logs (JSON, CSV, or Android adb logcat TXT/LOG)",
     type=["json", "csv", "txt", "log"],
     accept_multiple_files=True,
 )
 
+raw_inputs: list[tuple[str, bytes]] = []
 if uploaded_files:
+    st.session_state.demo_active = False
+    for f in uploaded_files:
+        raw_inputs.append((f.name, f.read()))
+elif st.session_state.demo_active:
+    raw_inputs = load_builtin_demo_files()
+    st.info("Loaded built-in demo evidence: android-logcat.txt + windows_security.csv")
+
+if raw_inputs:
     all_events = []
     file_hashes = {}
 
-    for f in uploaded_files:
-        raw_bytes = f.read()
+    for fname, raw_bytes in raw_inputs:
         file_hash = compute_sha256(raw_bytes)
-        file_hashes[f.name] = file_hash
-        parsed_events = normalize_records(f.name, raw_bytes, file_hash)
+        file_hashes[fname] = file_hash
+        parsed_events = normalize_records(fname, raw_bytes, file_hash)
         all_events.extend(parsed_events)
 
     all_events.sort(key=lambda x: x["parsed_time"])
