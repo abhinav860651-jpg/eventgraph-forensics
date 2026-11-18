@@ -1,0 +1,18 @@
+[
+  {
+    "event_id": "M01",
+    "timestamp": "2026-11-18T10:02:15Z",
+    "device": "Suspect_Phone_Android",
+    "event_type": "GPS_PING",
+    "details": "Lat: 10.8505, Lon: 76.2711 (Office Zone)",
+    "actor": "ashik_pk"
+  },
+  {
+    "event_id": "M02",
+    "timestamp": "2026-11-18T10:04:50Z",
+    "device": "Suspect_Phone_Android",
+    "event_type": "USB_TETHER_ON",
+    "details": "USB interface activated",
+    "actor": "ashik_pk"
+  }
+]

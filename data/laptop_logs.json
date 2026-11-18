@@ -1,0 +1,18 @@
+[
+  {
+    "event_id": "L01",
+    "timestamp": "2026-11-18T10:05:05Z",
+    "device": "Suspect_Laptop_Win11",
+    "event_type": "USB_CONNECTED",
+    "details": "VID_18D1&PID_4EE7 (Android ADB/MTP)",
+    "actor": "ashik_pk"
+  },
+  {
+    "event_id": "L02",
+    "timestamp": "2026-11-18T10:07:30Z",
+    "device": "Suspect_Laptop_Win11",
+    "event_type": "FILE_COPIED",
+    "details": "confidential_db_dump.sql copied to external storage",
+    "actor": "ashik_pk"
+  }
+]

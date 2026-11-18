@@ -1,0 +1,2 @@
+2026-11-18 10:02:15.104  1102  1140 I LocationManagerService: GPS_PING Lat: 10.8505, Lon: 76.2711 (Office Zone)
+2026-11-18 10:04:50.412  1420  1455 I UsbDeviceManager: USB interface activated (MTP/ADB tethering enabled)
