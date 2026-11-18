@@ -10,8 +10,25 @@ from pyvis.network import Network
 import streamlit as st
 
 st.set_page_config(page_title="EventGraph Forensics", layout="wide")
-st.title("EventGraph: Provenance-Aware Forensic Timeline")
 
+def apply_intelligent_cyber_theme():
+    st.markdown("""
+        <style>
+        /* ... your CSS code ... */
+        </style>
+    """, unsafe_allow_html=True)
+
+def render_intelligent_status_bar(department_mode="MULTI-AGENCY / ENTERPRISE"):
+    st.markdown(f"""
+        <div style="...">
+            ...
+        </div>
+    """, unsafe_allow_html=True)
+
+# Now call them AFTER they are defined:
+apply_intelligent_cyber_theme()
+render_intelligent_status_bar()
+st.title("EventGraph: Provenance-Aware Forensic Timeline")
 
 def compute_sha256(file_bytes: bytes) -> str:
     return hashlib.sha256(file_bytes).hexdigest()
