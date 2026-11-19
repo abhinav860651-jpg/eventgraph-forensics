@@ -1,6 +1,7 @@
 # EventGraph: Provenance-Aware Forensic Timeline
 
 A multi-device digital forensics correlation and provenance visualization workbench built with Python, Streamlit, Pandas, and PyVis.
+ *Live Demo:* [Launch EventGraph on Streamlit](https://eventgraph-forensics-eexxl4zzlgn25kwegeupjf.streamlit.app/)
 
 ## Core Capabilities
 1. *Multi-Format Log Ingestion & Schema Normalization:* Parses device logs from *JSON, **CSV* (Windows Event Viewer exports), and raw *Android adb logcat* dumps into a unified UTC chronological timeline.
